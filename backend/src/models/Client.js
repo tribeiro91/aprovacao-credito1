@@ -1,12 +1,12 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/database");
-
+const CreditRequest = require("./CreditRequest")
 const hooks = {};
 
 const tableName = "clients";
 
-const Cliente = sequelize.define(
-    "Cliente",
+const Client = sequelize.define(
+    "Client",
     {
         id: {
             type : Sequelize.INTEGER,
@@ -14,17 +14,21 @@ const Cliente = sequelize.define(
             primaryKey: true,
             unique: true
         },
-        nome : {
+        name : {
             type: Sequelize.STRING,
             allowNull: false
         },
-        pontuacao : {
+        cpf : {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        salary : {
+            type: Sequelize.DECIMAL,
+            allowNull: false
+        },
+        score : {
              type: Sequelize.INTEGER,
              allowNull: false
-        },
-        credito : {
-                type: Sequelize.STRING,
-                allowNull: false
         },
         createdAt :{
             type: Sequelize.DATE,
@@ -43,10 +47,12 @@ const Cliente = sequelize.define(
     }
 );
 
-Cliente.prototype.toJSON = function(){
+Client.hasOne(CreditRequest);
+
+Client.prototype.toJSON = function(){
     const values = Object.assign({}, this.get());
     return values;
 };
 
-module.exports = Cliente;
+module.exports = Client;
 

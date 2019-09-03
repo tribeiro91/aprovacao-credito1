@@ -1,11 +1,11 @@
-const Cliente = require('../models/Client');
+const Client = require('../models/Client');
 
 const ClientController = () => {
 
 
     const list = async (req, res) => {
         try {
-          const clientes = await Cliente.findAll();
+          const clientes = await Client.findAll();
           return res.status(200).json(clientes);          
         } catch (err) {
             
@@ -18,7 +18,7 @@ const ClientController = () => {
         // destruction ES6
         const { params } = req;
         try {
-          const cliente = await Cliente.findById(params.id);
+          const cliente = await Client.findById(params.id);
           return res.status(200).json(cliente);
         } catch (err) {
           console.log(err);
@@ -45,7 +45,7 @@ const ClientController = () => {
             }   
 
             console.log(body);
-            await Cliente.create(body);
+            await Client.create(body);
             res.status(201).json({'message':body});
         }
         catch(err){
@@ -58,7 +58,7 @@ const ClientController = () => {
 
     const update = async (req, res) => {
         const { body, params } = req;
-        const client = await Cliente.findById(params.id);
+        const client = await Client.findById(params.id);
 
         if(body.pontuacao >= 1 && body.pontuacao <= 299){
             body.credito = "Reprovado";
@@ -91,7 +91,7 @@ const ClientController = () => {
         };
 
         try{
-            await Cliente.update(model, {
+            await Client.update(model, {
                 where: {
                     id : params.id
                 }
@@ -108,7 +108,7 @@ const ClientController = () => {
     const destroy = async (req, res) => {
         const { params } = req;
 
-        const client = await Cliente.findById(params.id);
+        const client = await Client.findById(params.id);
 
         if(!client){
             return res.status(404).json({
