@@ -1,5 +1,6 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../config/database");
+const Sequelize = require("sequelize")
+const sequelize = require("../config/database")
+const Client = require("./Client")
 
 const hooks = {};
 
@@ -31,13 +32,27 @@ const CreditRequest = sequelize.define(
             type: Sequelize.DATE,
             allowNull: false,
             defaultValue : Sequelize.NOW
+        },
+        clientId: {
+            type: Sequelize.INTEGER
         }
+
     },
     {
         hooks,
         tableName
     }
 );
+
+CreditRequest.associate = (models) => {
+    CreditRequest.belongsTo(models.Client, {
+        foreignKey: 'clientId',
+        targetKey : 'clientId'
+        
+    })
+    
+}
+
 
 CreditRequest.prototype.toJSON = function(){
     const values = Object.assign({}, this.get());

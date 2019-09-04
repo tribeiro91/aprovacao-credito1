@@ -1,6 +1,7 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../config/database");
+const Sequelize = require("sequelize")
+const sequelize = require("../config/database")
 const CreditRequest = require("./CreditRequest")
+
 const hooks = {};
 
 const tableName = "clients";
@@ -47,7 +48,13 @@ const Client = sequelize.define(
     }
 );
 
-Client.hasOne(CreditRequest);
+
+Client.hasOne(CreditRequest, {
+    as : 'client',
+    foreignKey: 'clientId',
+    targetKey : 'clientId',
+    onDelete: 'CASCADE'
+}) 
 
 Client.prototype.toJSON = function(){
     const values = Object.assign({}, this.get());
